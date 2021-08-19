@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>me.stone.training.applications</groupId>
+    <artifactId>training-applications</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>lib-jar</module>
+        <module>assembly</module>
+    </modules>
+    <name>applications for all</name>
+
+    <parent>
+        <groupId>me.stone.training.parent</groupId>
+        <artifactId>training-application-parent</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <profiles>
+        <profile>
+            <id>h2</id>
+            <properties>
+                <active.springboot.profile>h2</active.springboot.profile>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>com.h2database</groupId>
+                    <artifactId>h2</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
+
+    <properties>
+        <maven.source.skip>true</maven.source.skip>
+        <maven.deploy.skip>true</maven.deploy.skip>
+        <assembly.skipAssembly>false</assembly.skipAssembly>
+        <training.version>1.0-SNAPSHOT</training.version>
+    </properties>
+
+    <dependencies>
+        <!--//region 测试-->
+        <dependency>
+            <groupId>io.projectreactor</groupId>
+            <artifactId>reactor-test</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!--//endregion-->
+    </dependencies>
+
+
+</project>

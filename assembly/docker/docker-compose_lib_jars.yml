@@ -1,0 +1,43 @@
+version: '3.6'
+x-logger: &logger  #配置滚动日志
+  logging:
+    driver: json-file
+    options:
+      max-size: "100m"
+      max-file: "3"
+x-ulimits: &limits
+  ulimits:
+    nproc: 65535
+    nofile:
+      soft: 4096
+      hard: 10240
+services:
+  wechat:
+    image: centos:7
+    <<: *logger
+    <<: *limits
+    volumes:
+      - ./:/app
+      - /opt/jdk:/jdk:ro
+    user: '1000:1000'
+    ports:
+      - 50057:8080
+      - 50058:7000
+    env_file: ./env
+    networks:
+      services:
+        ipv4_address: 10.174.0.3
+    environment:
+      - LC_ALL=zh_CN.UTF-8
+      - SET_CONTAINER_TIMEZONE=true
+      - CONTAINER_TIMEZONE=Asia/Shanghai
+      - SERVER_PORT=8080
+      - SPRING_PROFILES_ACTIVE=common,test,cfgtest
+    working_dir: /app
+    entrypoint: ../jdk/bin/java -Dfile.encoding=UTF-8 -server -Xms512M -Xmx512M -XX:+UseParallelGC -jar boot.jar
+networks:
+  services:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.174.0.1/24
